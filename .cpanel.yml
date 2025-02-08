@@ -3,6 +3,12 @@ deployment:
     - export DEPLOYPATH=/home/nowmbbms/public_html/n
     - |
       for dir in .vscode assets css fonts img js; do
-        /bin/cp -R $dir $DEPLOYPATH
+        if ! /bin/cp -R $dir $DEPLOYPATH; then
+          echo "Error deploying $dir"
+          exit 1
+        fi
       done
-    - /bin/cp index.html $DEPLOYPATH
+    - if ! /bin/cp index.html $DEPLOYPATH; then
+        echo "Error deploying index.html"
+        exit 1
+      fi
